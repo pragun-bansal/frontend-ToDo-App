@@ -1,62 +1,49 @@
-import { useEffect, useState } from "react";
-import ToDo from "./components/ToDo";
-import { addToDo, getAllToDo ,updateToDo,deleteToDo} from "./utils/HandleApi";
+import {useEffect, useState} from 'react';
+import {useDispatch} from "react-redux";
+import Home from './components/Home/Home';
+import {addToDo, getToDoList, updateToDo, deleteToDo, getAllLists} from './utils/HandleApi';
+import {BrowserRouter as Router, Routes, Route, Link, Navigate} from 'react-router-dom';
+import Sidebar from './components/Sidebar/Sidebar';
+import LoginPage from './components/Login/LoginPage';
+  import axios from 'axios';
+
+//Redux Imports
+import store from "./Redux/Store/store";
+
+import {Provider,useSelector} from "react-redux";
+import { getUserRedux } from './Redux/Slices/UserSlice';
+
 
 function App() {
 
-const [toDo,setToDo] = useState([]);
-const [text,setText] = useState("");
-const [isUpdating, setIsUpdating]=useState(false)
-const [toDoId,setToDoId]=useState("")
+const dispatch = useDispatch();
 
-const updateMode=(_id,text)=>{
-  setIsUpdating(true);
-  setText(text);
-  setToDoId(_id);
+useEffect(() => {
+  // setLists
+  dispatch(getUserRedux());
+  
+}, []);
+
+const {data:user}= useSelector((state)=>state.User);
+const {data:lists} = useSelector((state)=>state.allLists);
+const {data} = useSelector((state)=>state.currentToDoList)
+const ReduxList=data;
+
+
+const logout=()=>{
+  window.open(`${process.env.REACT_APP_SERVER_URL}/auth/logout`,"_self")
 }
 
-
-useEffect(()=>{
-  getAllToDo(setToDo)
-},[])
-
-console.log(toDo);
-
+  console.log(!user);
   return (
-    <div className="App">
-      <div className="container mx-auto my-auto px-0 py-[1rem] max-w-[600px] ">
-        <h1 className="text-[32px] font-bold text-center"> To Do App</h1>
-      
 
-      <div className="top flex my-[1rem] text-center justify-center gap-[1rem]">
-        <input type="text" 
-        placeholder="Add ToDo...." 
-        className="border-0 w-[400px] py-[0.5rem] outline-0 border-b-[1px] border-black  border-solid" 
-        value ={text} 
-        onChange = {(e)=>setText(e.target.value)}
-        />
-      <div 
-      className="add bg-black text-white px-[0.5rem] py-[1.5rem] cursor-pointer" 
-      onClick={isUpdating?
-      ()=>updateToDo(text,setText,setToDo,setIsUpdating,toDoId) :
-      ()=>addToDo(text,setText,setToDo)}
-      >{isUpdating?"Update":"Add"}</div>
-
-      </div>
-    <div className="list">
-    {toDo?.map((item)=>{
-      return (
-        <ToDo 
-        key={item._id} 
-        text = {item.text} 
-        updateMode = {()=>updateMode(item._id,item.text)}
-        deleteToDo={()=>deleteToDo(item._id,setToDo)}
-        />
-      )
-    })}
-    </div>
-    </div>
-    </div>
+    <Router>
+      {user && lists?<Sidebar logout={logout} user={user} lists={lists} ReduxList={ReduxList} />:<></>}
+      <Routes>
+        <Route path="/" element={user ? <Home lists={lists} ReduxList={ReduxList} user={user}/>:<Navigate to="/login" />} />
+        <Route path="/login" element={user ? <Navigate to="/" />:<LoginPage />} />
+      </Routes>
+    </Router>
   );
 }
 
