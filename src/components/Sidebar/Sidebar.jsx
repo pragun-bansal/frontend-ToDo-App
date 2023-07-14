@@ -5,6 +5,8 @@ import { getCurrentList } from "../../Redux/Slices/ToDoSlice";
 import { getAllListsRedux } from "../../Redux/Slices/AllListsSlice";
 import { AiFillDelete } from 'react-icons/ai'
 import { useCookies } from "react-cookie";
+import { useNavigate } from "react-router-dom";
+import { logoutUser } from "../../Redux/Slices/UserSlice";
 
 export default function Sidebar({ logout, user, lists, ReduxList }) {
    const [cookies, setCookie, removeCookie] = useCookies(["access_token"]);
@@ -17,6 +19,16 @@ export default function Sidebar({ logout, user, lists, ReduxList }) {
    };
 
    const user_id = user._id
+   const navigate = useNavigate();
+
+   const signout=()=>{
+      dispatch(logoutUser());
+      removeCookie("access_token")
+      console.log(cookies.access_token);
+      setTimeout( () => {
+         window.location.reload();
+      }, 300);
+   }
 
    const createNewList = async () => {
       await createToDoList("New ToDo List", user._id,token);
@@ -133,7 +145,7 @@ export default function Sidebar({ logout, user, lists, ReduxList }) {
             </button>
          </li> */}
                   <li>
-                     <button onClick={logout} class="flex items-center pl-5 p-2 text-gray-900 rounded-lg  hover:bg-gray-100 group ">
+                     <button onClick={signout} class="flex items-center pl-5 p-2 text-gray-900 rounded-lg  hover:bg-gray-100 group ">
                         <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75  group-hover:text-gray-900 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 16">
                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 8h11m0 0L8 4m4 4-4 4m4-11h3a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-3" />
                         </svg>
