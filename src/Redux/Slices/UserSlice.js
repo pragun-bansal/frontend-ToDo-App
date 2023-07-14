@@ -12,7 +12,7 @@ export const STATUSES = Object.freeze({
 
 //get currentList data
 
-export const getUserRedux = createAsyncThunk( "getUserRedux",async(toDoListId,{rejectWithValue})=>{
+export const getUserRedux = createAsyncThunk( "getUserRedux",async({rejectWithValue})=>{
     try {
         const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/auth/login/success`, {
           withCredentials: true,
@@ -38,7 +38,7 @@ const User = createSlice({
     initialState:{},
     reducers:{
         logoutUser(state){
-          state.user={};
+          state.data={};
         },
         add(state,action){
             state.push(action.payload)
@@ -48,7 +48,10 @@ const User = createSlice({
             return state.filter((item,index)=>index!=action.payload)
         },
         newList(state,action){
-            state=action.payload
+            state.data=action.payload
+        },
+        loginUser(state,action){
+            state.data=action.payload
         }
     },
     extraReducers:(builder)=>{{
@@ -66,5 +69,5 @@ const User = createSlice({
     }}
 })
 
-export const{add,remove,newList,logoutUser} =User.actions;
+export const{add,remove,newList,logoutUser,loginUser} =User.actions;
 export default User.reducer;

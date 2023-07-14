@@ -7,8 +7,13 @@ import{useDispatch} from "react-redux"
 import { getCurrentList, newList } from '../../Redux/Slices/ToDoSlice';
 import { Navigate } from 'react-router-dom';
 import { getAllListsRedux } from '../../Redux/Slices/AllListsSlice';
-// import { getAllListsRedux } from '../../Redux/Slices/AllListsSlice';
+import { useCookies } from "react-cookie";
+
+
+
 const ToDoList = ({ReduxList,user}) => {
+  const [cookies, setCookie, removeCookie] = useCookies(["access_token"]);
+  const token = cookies.access_token
 
     const [toDo, setToDo] = useState([]);
 const [text, setText] = useState('');
@@ -30,7 +35,7 @@ const dispatch = useDispatch();
 const handleSubmit=(e)=>{
   // e.preventDefault();
   updateListName(ReduxList._id,newListName);
-  dispatch(getAllListsRedux(user._id));
+  dispatch(getAllListsRedux(user._id,token));
   dispatch(getCurrentList(ReduxList._id));
   getCurrentList(ReduxList._id);
   updateName();

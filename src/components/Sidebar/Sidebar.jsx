@@ -4,9 +4,11 @@ import { addToDo, getToDoList ,updateToDo,deleteToDo,createToDoList,getAllLists,
 import { getCurrentList } from "../../Redux/Slices/ToDoSlice";
 import { getAllListsRedux } from "../../Redux/Slices/AllListsSlice";
 import {AiFillDelete} from 'react-icons/ai'
-
+import { useCookies } from "react-cookie";
 
 export default function Sidebar({logout,user,lists,ReduxList}) {
+   const [cookies, setCookie, removeCookie] = useCookies(["access_token"]);
+   const token = cookies.access_token
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   console.log(lists);
   const dispatch = useDispatch();
@@ -17,19 +19,19 @@ export default function Sidebar({logout,user,lists,ReduxList}) {
   const createNewList = async () => {
    await createToDoList("New ToDo List", user._id);
    setTimeout(async () => {
-     await dispatch(getAllListsRedux(user._id));
+     await dispatch(getAllListsRedux(user._id,token));
    }, 300);
  };
  
 
   const handleClick=async(list)=>{
-      dispatch(getCurrentList(list._id));
+      dispatch(getCurrentList(list._id,token));
   }
 
   const handleDelete=async(list)=>{
       await deleteToDoList(user._id,list._id);
       setTimeout(async () => {
-         await dispatch(getAllListsRedux(user._id));
+         await dispatch(getAllListsRedux(user._id,token));
        }, 300);
   }
 
@@ -83,7 +85,7 @@ export default function Sidebar({logout,user,lists,ReduxList}) {
         <span class="sr-only">Close menu</span>
     </button>
          </li>
-         <li><img className="w-[50%] rounded-full " src={user.pfp} alt="pfp image" /></li>
+         {/* <li><img className="w-[50%] rounded-full " src={user.pfp} alt="pfp image" /></li> */}
          
          {lists.map((list)=>{
             return(

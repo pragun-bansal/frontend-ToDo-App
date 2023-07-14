@@ -6,20 +6,28 @@ import { addToDo, getToDoList ,updateToDo,deleteToDo,createToDoList,getAllLists}
 import AllLists from '../WelcomePage/WelcomePage';
 import ToDoList from '../ToDo/ToDoList';
 import { getAllListsRedux } from '../../Redux/Slices/AllListsSlice';
+import { useCookies } from "react-cookie";
+
 
 const Home = ({lists,ReduxList,user}) => {
-    console.log("user",user._id);
-    const user_id=user._id;
-    const dispatch = useDispatch();
+  const [cookies, setCookie, removeCookie] = useCookies(["access_token"]);
+  const token = cookies.access_token
+  console.log(token);
+  console.log("user",user._id);
+  const user_id=user._id;
+  const dispatch = useDispatch();
   useEffect(()=>{
-    dispatch(getAllListsRedux(user_id));
+    console.log("useeffect",token)
+    // setTimeout(async()=>await dispatch(getAllListsRedux(user_id,token)),1000)
+    dispatch(getAllListsRedux({user_id,token}))
+   
   },[])
     
 
     
       return (
         <div className="Home mx-auto w-[80vw] sm:w-[full]">
-        {ReduxList?<ToDoList ReduxList={ReduxList} user={user}/>:lists?<AllLists lists={lists}/>:<></>}
+        {ReduxList?<ToDoList ReduxList={ReduxList} user={user}/>:lists?<AllLists user={user} lists={lists}/>:<></>}
         </div>
       );
 }

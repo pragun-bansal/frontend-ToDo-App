@@ -12,9 +12,12 @@ export const STATUSES = Object.freeze({
 
 //get currentList data
 
-export const getCurrentList = createAsyncThunk( "getCurrentList",async(toDoListId,{rejectWithValue})=>{
+export const getCurrentList = createAsyncThunk( "getCurrentList",async({toDoListId,user_id,token})=>{
+    console.log("check" ,toDoListId,user_id,token)
     const response =await axios.post(`${process.env.REACT_APP_SERVER_URL}/getToDoList`,{
         toDoListId: toDoListId,
+        user_id:user_id,
+        token:token
     })
     try{
         console.log(response)
@@ -24,7 +27,7 @@ export const getCurrentList = createAsyncThunk( "getCurrentList",async(toDoListI
     }
     catch(err){
         console.log(err);
-        return rejectWithValue(err);
+        // return rejectWithValue(err);
     }
 })
 

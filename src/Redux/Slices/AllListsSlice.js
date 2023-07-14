@@ -3,7 +3,6 @@ import axios from "axios";
 
 
 
-
 export const STATUSES = Object.freeze({
     IDLE: 'idle',
     LOADING: 'loading',
@@ -12,9 +11,13 @@ export const STATUSES = Object.freeze({
 
 //get currentList data
 
-export const getAllListsRedux = createAsyncThunk( "getAllListsRedux",async(user_id,{rejectWithValue})=>{
-    console.log("ktu ni jaa rhi")
-    const response =await axios.post(`${process.env.REACT_APP_SERVER_URL}/getAllLists`,{user_id:user_id})
+export const getAllListsRedux = createAsyncThunk( "getAllListsRedux",async({user_id,token},{rejectWithValue})=>{
+    console.log("token",token)
+    const response =await axios.post(`${process.env.REACT_APP_SERVER_URL}/getAllLists`,{user_id:user_id,token:token},{
+        headers:{
+            "Content-Type":"application/json"
+        }
+    })
     
     try{
         console.log(response)

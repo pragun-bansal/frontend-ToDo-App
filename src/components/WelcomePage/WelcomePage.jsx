@@ -1,15 +1,20 @@
 import React from 'react'
+import { useCookies } from 'react-cookie';
 import {useDispatch} from "react-redux";
 import { getCurrentList } from "../../Redux/Slices/ToDoSlice";
 const Logo = require("../Images/Logo.jpg")
 
 
-const AllLists = ({lists}) => {
+const AllLists = ({lists,user}) => {
+
+  const [cookies, setCookie, removeCookie] = useCookies(["access_token"]);
+  const token = cookies.access_token
   const dispatch = useDispatch();
-  
 const handleClick=async(list)=>{
-  console.log(list)
-    dispatch(getCurrentList(list._id));
+  const toDoListId = list._id;
+  // console.log("list",toDoCurrentList)
+    const user_id = user._id
+    dispatch(getCurrentList({toDoListId,user_id,token}));
 }
 
   return (

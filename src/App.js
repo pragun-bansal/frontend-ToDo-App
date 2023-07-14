@@ -20,10 +20,10 @@ const dispatch = useDispatch();
 
 useEffect(() => {
   // setLists
-  dispatch(getUserRedux());
+  // dispatch(getUserRedux());
   
 }, []);
-
+// const {user,setUser}=useState()
 const {data:user}= useSelector((state)=>state.User);
 // const user ={
 //   "_id": "64a920102fb96fc6a2407bad",
