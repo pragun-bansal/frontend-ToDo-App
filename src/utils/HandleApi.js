@@ -6,30 +6,31 @@ const baseUrl = `${process.env.REACT_APP_SERVER_URL}`
 
 
 
-const createToDoList = (name,user_id)=>{
-    axios.post(`${baseUrl}/createToDoList`,{name:name,user_id:user_id})
+
+const createToDoList = (name,user_id,token)=>{
+    axios.post(`${baseUrl}/createToDoList`,{name:name,user_id:user_id,token:token})
     .then(({data})=>{
         console.log('data--->',data);
     })
 }
 
-const deleteToDoList = (user_id,toDoListId)=>{
-    axios.post(`${baseUrl}/deleteToDoList`,{toDoListId:toDoListId,user_id:user_id})
+const deleteToDoList = (user_id,toDoListId,token)=>{
+    axios.post(`${baseUrl}/deleteToDoList`,{toDoListId:toDoListId,user_id:user_id,token:token})
     .then(({data})=>{
         console.log('data--->',data);
         // setToDo(data)
     })
 }
 
-const updateListName = (toDoListId,text)=>{
-    axios.put(`${baseUrl}/updateListName`,{toDoListId:toDoListId,text:text})
+const updateListName = ({ReduxListId,text,user_id,token})=>{
+    axios.post(`${baseUrl}/updateListName`,{ReduxListId:ReduxListId,text:text,user_id:user_id,token:token})
     .then(({data})=>{
         console.log('data--->',data);
     })
 }
 
-const getAllLists = async(user_id,setLists)=>{
-    await axios.post(`${baseUrl}/getAllLists`,{user_id:user_id})
+const getAllLists = async(user_id,setLists,token)=>{
+    await axios.post(`${baseUrl}/getAllLists`,{user_id:user_id,token:token})
     .then(({data})=>{
         setLists(data);
         
@@ -87,8 +88,8 @@ const getToDoList = (toDoListId,setToDo)=>{
 
 
 
-const addTask=(toDoId,text,setText)=>{
-    axios.post(`${baseUrl}/saveTask`,{text:text,toDoId:toDoId})
+const addTask=(toDoId,text,setText,user_id,token)=>{
+    axios.post(`${baseUrl}/saveTask`,{text:text,toDoId:toDoId,user_id:user_id,token:token})
     .then((data)=>{
         console.log(data);
         setText("");
@@ -96,9 +97,9 @@ const addTask=(toDoId,text,setText)=>{
     .catch((err)=>console.log(err))
 }
 
-const updateTask=(itemId,text,setText,setToDo,setIsUpdating)=>{
+const updateTask=(itemId,text,setText,setToDo,setIsUpdating,user_id,token)=>{
 
-    axios.post(`${baseUrl}/updateTask`,{_id:itemId,text})
+    axios.post(`${baseUrl}/updateTask`,{_id:itemId,text,user_id:user_id,token:token})
     .then((data)=>{
         setIsUpdating(false);
         setText("");
@@ -107,8 +108,8 @@ const updateTask=(itemId,text,setText,setToDo,setIsUpdating)=>{
     .catch((err)=>console.log(err))
 }
 
-const toggleCheckTask=(itemId)=>{
-    axios.put(`${baseUrl}/toggleCheckTask`,{_id:itemId})
+const toggleCheckTask=(itemId,user_id,token)=>{
+    axios.put(`${baseUrl}/toggleCheckTask`,{_id:itemId,user_id:user_id,token:token})
     .then((data)=>{
         // setIsUpdating(false);
         // setText("");
@@ -118,9 +119,9 @@ const toggleCheckTask=(itemId)=>{
     .catch((err)=>console.log(err))
 }
 
-const deleteTask=(itemId,toDoId)=>{
+const deleteTask=(itemId,toDoId,user_id,token)=>{
     console.log(itemId,toDoId)
-    axios.post(`${baseUrl}/deleteTask`,{_id:itemId,toDoId:toDoId})
+    axios.post(`${baseUrl}/deleteTask`,{_id:itemId,toDoId:toDoId,user_id:user_id,token:token})
     .then((data)=>{
         console.log(data);
     })
