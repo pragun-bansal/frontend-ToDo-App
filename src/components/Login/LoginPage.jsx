@@ -1,9 +1,11 @@
 import React from 'react'
 
 const LoginPage = () => {
-const google=()=>{
+const google=(e)=>{
+    e.preventDefault();
     window.open(`${process.env.REACT_APP_SERVER_URL}/auth/google`,"_self")
 }
+
 const github=()=>{
     window.open(`${process.env.REACT_APP_SERVER_URL}/auth/github`,"_self")
 }

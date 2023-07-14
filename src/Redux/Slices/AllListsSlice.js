@@ -30,7 +30,7 @@ export const getAllListsRedux = createAsyncThunk( "getAllListsRedux",async(user_
 
 const allLists = createSlice({
     name:'ToDoList',
-initialState:{},
+    initialState:{},
     reducers:{
         add(state,action){
             state.push(action.payload)

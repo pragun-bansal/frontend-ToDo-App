@@ -37,6 +37,9 @@ const User = createSlice({
     name:'User',
     initialState:{},
     reducers:{
+        logoutUser(state){
+          state.user={};
+        },
         add(state,action){
             state.push(action.payload)
 
@@ -63,5 +66,5 @@ const User = createSlice({
     }}
 })
 
-export const{add,remove,newList} =User.actions;
+export const{add,remove,newList,logoutUser} =User.actions;
 export default User.reducer;
