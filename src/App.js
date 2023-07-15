@@ -22,7 +22,7 @@ useEffect(() => {
   // setLists
   // dispatch(getUserRedux());
   const data=localStorage.getItem("user");
-  if(data._id){
+  if(data && data._id){
     console.log(JSON.parse(data));
     dispatch(loginUser((JSON.parse(data))));}
   
