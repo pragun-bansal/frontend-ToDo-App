@@ -20,10 +20,10 @@ export const getUserRedux = createAsyncThunk( "getUserRedux",async({rejectWithVa
             Accept: 'application/json',
           },
         });
-        console.log('check');
+        // console.log('check');
         if (response.status === 200) {
           const resObject = response.data;
-          console.log(resObject);
+          // console.log(resObject);
           return resObject.user;
         } else {
           throw new Error('Authentication failed!');

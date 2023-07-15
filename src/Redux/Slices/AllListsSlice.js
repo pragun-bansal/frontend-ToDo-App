@@ -12,7 +12,7 @@ export const STATUSES = Object.freeze({
 //get currentList data
 
 export const getAllListsRedux = createAsyncThunk( "getAllListsRedux",async({user_id,token},{rejectWithValue})=>{
-    console.log("token",token)
+    // console.log("token",token)
     const response =await axios.post(`${process.env.REACT_APP_SERVER_URL}/getAllLists`,{user_id:user_id,token:token},{
         headers:{
             "Content-Type":"application/json"
@@ -20,13 +20,13 @@ export const getAllListsRedux = createAsyncThunk( "getAllListsRedux",async({user
     })
     
     try{
-        console.log(response)
+        // console.log(response)
         const result = response.data;
-        console.log("AllLists",result);
+        // console.log("AllLists",result);
         return result;
     }
     catch(err){
-        console.log(err);
+        // console.log(err);
         return rejectWithValue(err);
     }
 })

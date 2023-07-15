@@ -55,7 +55,7 @@ const logout=()=>{
   window.open(`${process.env.REACT_APP_SERVER_URL}/auth/logout`,"_self")
 }
 
-  console.log(!user);
+  // console.log(!user); 
   return (
 
     <Router>

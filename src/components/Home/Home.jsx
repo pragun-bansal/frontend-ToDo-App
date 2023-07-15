@@ -12,12 +12,12 @@ import { useCookies } from "react-cookie";
 const Home = ({lists,ReduxList,user}) => {
   const [cookies, setCookie, removeCookie] = useCookies(["access_token"]);
   const token = cookies.access_token
-  console.log(token);
-  console.log("user",user._id);
+  // console.log(token);
+  // console.log("user",user._id);
   const user_id=user._id;
   const dispatch = useDispatch();
   useEffect(()=>{
-    console.log("useeffect",token)
+    // console.log("useeffect",token)
     // setTimeout(async()=>await dispatch(getAllListsRedux(user_id,token)),1000)
     dispatch(getAllListsRedux({user_id,token}))
    

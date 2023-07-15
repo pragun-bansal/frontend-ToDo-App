@@ -50,7 +50,7 @@ const handleClick = async (e) => {
     e.preventDefault();
     if (register) {
       try {
-        console.log(regCred)
+        // console.log(regCred)
         const res = await axios.post(`${process.env.REACT_APP_SERVER_URL}/auth/register`, regCred);
         if(res.status==200)
        { toast.success(`Register Successfully!`, {
@@ -97,7 +97,7 @@ const handleClick = async (e) => {
           theme: "colored",
         });
         setCookie("access_token", res.data.token);
-        console.log(res.data)
+        // console.log(res.data)
 
         // getCart(res.data.details._id, res.data.token);
         // navigate("/");

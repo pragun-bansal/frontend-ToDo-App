@@ -13,16 +13,16 @@ export const STATUSES = Object.freeze({
 //get currentList data
 
 export const getCurrentList = createAsyncThunk( "getCurrentList",async({toDoListId,user_id,token})=>{
-    console.log("check" ,toDoListId,user_id,token)
+    // console.log("check" ,toDoListId,user_id,token)
     const response =await axios.post(`${process.env.REACT_APP_SERVER_URL}/getToDoList`,{
         toDoListId: toDoListId,
         user_id:user_id,
         token:token
     })
     try{
-        console.log(response)
+        // console.log(response)
         const result = {todo:response.data.todo,list:response.data.list,_id:toDoListId};
-        console.log("CurrentList",result);
+        // console.log("CurrentList",result);
         return result;
     }
     catch(err){

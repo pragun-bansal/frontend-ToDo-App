@@ -10,14 +10,14 @@ const baseUrl = `${process.env.REACT_APP_SERVER_URL}`
 const createToDoList = (name,user_id,token)=>{
     axios.post(`${baseUrl}/createToDoList`,{name:name,user_id:user_id,token:token})
     .then(({data})=>{
-        console.log('data--->',data);
+        // console.log('data--->',data);
     })
 }
 
 const deleteToDoList = (user_id,toDoListId,token)=>{
     axios.post(`${baseUrl}/deleteToDoList`,{toDoListId:toDoListId,user_id:user_id,token:token})
     .then(({data})=>{
-        console.log('data--->',data);
+        // console.log('data--->',data);
         // setToDo(data)
     })
 }
@@ -25,7 +25,7 @@ const deleteToDoList = (user_id,toDoListId,token)=>{
 const updateListName = ({ReduxListId,text,user_id,token})=>{
     axios.post(`${baseUrl}/updateListName`,{ReduxListId:ReduxListId,text:text,user_id:user_id,token:token})
     .then(({data})=>{
-        console.log('data--->',data);
+        // console.log('data--->',data);
     })
 }
 
@@ -67,7 +67,7 @@ const getAllLists = async(user_id,setLists,token)=>{
 const getToDoList = (toDoListId,setToDo)=>{
     axios.post(`${baseUrl}/getToDoList`,{toDoListId:toDoListId})
     .then(({data})=>{
-        console.log('data--->',data);
+        // console.log('data--->',data);
         setToDo(data);
     })
 }
@@ -91,7 +91,7 @@ const getToDoList = (toDoListId,setToDo)=>{
 const addTask=(toDoId,text,setText,user_id,token)=>{
     axios.post(`${baseUrl}/saveTask`,{text:text,toDoId:toDoId,user_id:user_id,token:token})
     .then((data)=>{
-        console.log(data);
+        // console.log(data);
         setText("");
     })
     .catch((err)=>console.log(err))
@@ -103,7 +103,7 @@ const updateTask=(itemId,text,setText,setToDo,setIsUpdating,user_id,token)=>{
     .then((data)=>{
         setIsUpdating(false);
         setText("");
-        console.log(data);
+        // console.log(data);
     })
     .catch((err)=>console.log(err))
 }
@@ -114,7 +114,7 @@ const toggleCheckTask=(itemId,user_id,token)=>{
         // setIsUpdating(false);
         // setText("");
         // getToDoList(toDoId,setToDo);
-        console.log(data);
+        // console.log(data);
     })
     .catch((err)=>console.log(err))
 }
@@ -123,7 +123,7 @@ const deleteTask=(itemId,toDoId,user_id,token)=>{
     console.log(itemId,toDoId)
     axios.post(`${baseUrl}/deleteTask`,{_id:itemId,toDoId:toDoId,user_id:user_id,token:token})
     .then((data)=>{
-        console.log(data);
+        // console.log(data);
     })
     .catch((err)=>console.log(err))
 }
