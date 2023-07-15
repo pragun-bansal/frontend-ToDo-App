@@ -121,6 +121,17 @@ const handleClick = async (e) => {
       } catch (err) {
         console.log(err);
       }
+
+    setLoginCred({
+      email:undefined,
+      password:undefined
+
+    })
+    setRegCred({
+      email:undefined,
+      password:undefined,
+      username:undefined
+    })
     }
   };
 
