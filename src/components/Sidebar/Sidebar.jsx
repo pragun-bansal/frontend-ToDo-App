@@ -12,7 +12,7 @@ export default function Sidebar({ logout, user, lists, ReduxList }) {
    const [cookies, setCookie, removeCookie] = useCookies(["access_token"]);
    const token = cookies.access_token
    const [isSidebarOpen, setSidebarOpen] = useState(false);
-   console.log(lists);
+   // console.log(lists);
    const dispatch = useDispatch();
    const toggleSidebar = () => {
       setSidebarOpen(!isSidebarOpen);
@@ -24,7 +24,7 @@ export default function Sidebar({ logout, user, lists, ReduxList }) {
    const signout=()=>{
       dispatch(logoutUser());
       removeCookie("access_token")
-      console.log(cookies.access_token);
+      // console.log(cookies.access_token);
       setTimeout( () => {
          window.location.reload();
       }, 300);

@@ -11,7 +11,7 @@ import LoginPage from './components/Login/LoginPage';
 import store from "./Redux/Store/store";
 
 import {Provider,useSelector} from "react-redux";
-import { getUserRedux, logoutUser } from './Redux/Slices/UserSlice';
+import { getUserRedux, loginUser, logoutUser } from './Redux/Slices/UserSlice';
 
 
 function App() {
@@ -21,10 +21,18 @@ const dispatch = useDispatch();
 useEffect(() => {
   // setLists
   // dispatch(getUserRedux());
+  const data=localStorage.getItem("user");
+  if(data._id){
+    console.log(JSON.parse(data));
+    dispatch(loginUser((JSON.parse(data))));}
   
 }, []);
 // const {user,setUser}=useState()
 const {data:user}= useSelector((state)=>state.User);
+if(user){ 
+  console.log(user);
+  localStorage.setItem("user",JSON.stringify(user));}
+  
 // const user ={
 //   "_id": "64a920102fb96fc6a2407bad",
 //   "name": "Pragun Bansal",
@@ -51,6 +59,7 @@ const ReduxList=data;
 
 
 const logout=()=>{
+  localStorage.clear();
   dispatch(logoutUser());
   window.open(`${process.env.REACT_APP_SERVER_URL}/auth/logout`,"_self")
 }

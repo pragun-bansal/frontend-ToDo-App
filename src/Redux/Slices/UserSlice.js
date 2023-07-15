@@ -1,5 +1,6 @@
 import { createSlice,createAsyncThunk} from "@reduxjs/toolkit";
 import axios from "axios";
+import { useEffect } from "react";
 
 
 
@@ -51,6 +52,7 @@ const User = createSlice({
             state.data=action.payload
         },
         loginUser(state,action){
+            console.log(action.payload)
             state.data=action.payload
         }
     },
@@ -68,6 +70,7 @@ const User = createSlice({
     })
     }}
 })
+
 
 export const{add,remove,newList,logoutUser,loginUser} =User.actions;
 export default User.reducer;
