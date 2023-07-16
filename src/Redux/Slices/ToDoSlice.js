@@ -44,6 +44,9 @@ const currentToDoList = createSlice({
         },
         newList(state,action){
             state=action.payload
+        },
+        emptyCurrentList(state,actions){
+            state.data={}
         }
     },
     extraReducers:(builder)=>{{
@@ -61,5 +64,5 @@ const currentToDoList = createSlice({
     }}
 })
 
-export const{add,remove,newList} =currentToDoList.actions;
+export const{add,remove,newList,emptyCurrentList} =currentToDoList.actions;
 export default currentToDoList.reducer;

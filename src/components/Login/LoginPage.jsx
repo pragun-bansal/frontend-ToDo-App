@@ -41,6 +41,26 @@ const [loginCred, setLoginCred] = useState({
 
   const [cookies, setCookie, removeCookie] = useCookies(["access_token"]);
 
+const handleRegister=()=>{
+  if(register){
+    setLoginCred({
+      username: regCred.username,
+      password: regCred.password
+    })
+  }
+  else{
+    setRegCred({
+      username: loginCred.username,
+      password: loginCred.password
+    })
+  }
+
+  setViewPassword(false);
+
+  setRegister(!register);
+
+}
+
 const handleChange = (e) => {
     if (!register)
       setLoginCred((prev) => ({ ...prev, [e.target.id]: e.target.value }));
@@ -51,6 +71,7 @@ const handleChange = (e) => {
 
 
 const handleClick = async (e) => {
+  setViewPassword(false);
     e.preventDefault();
     if (register) {
       try {
@@ -65,7 +86,7 @@ const handleClick = async (e) => {
           pauseOnHover: false,
           draggable: true,
           progress: undefined,
-          theme: "colored",
+          theme: "dark",
         });
         navigate("/login");
         setRegister(!register);}
@@ -78,7 +99,7 @@ const handleClick = async (e) => {
                 pauseOnHover: false,
                 draggable: true,
                 progress: undefined,
-                theme: "colored",
+                theme: "dark",
               });
         }
         // alert("Registered Successfully!");
@@ -90,7 +111,7 @@ const handleClick = async (e) => {
         const res = await axios.post(`${process.env.REACT_APP_SERVER_URL}/auth/login`, loginCred);
         if(res.status==200){
         dispatch(loginUser(res.data.user));
-        toast.success(`Welcome ${loginCred.username}!`, {
+        toast.success(`Welcome ${res.data.user.name}!`, {
           position: "top-center",
           autoClose: 2000,
           hideProgressBar: false,
@@ -98,13 +119,13 @@ const handleClick = async (e) => {
           pauseOnHover: false,
           draggable: true,
           progress: undefined,
-          theme: "colored",
+          theme: "dark",
         });
         setCookie("access_token", res.data.token);
         // console.log(res.data)
 
         // getCart(res.data.details._id, res.data.token);
-        // navigate("/");
+        navigate("/");
         }
         else{
             toast.error(res.data.message, {
@@ -115,7 +136,7 @@ const handleClick = async (e) => {
                 pauseOnHover: false,
                 draggable: true,
                 progress: undefined,
-                theme: "colored",
+                theme: "dark",
               });
         }
       } catch (err) {
@@ -125,7 +146,6 @@ const handleClick = async (e) => {
     setLoginCred({
       email:undefined,
       password:undefined
-
     })
     setRegCred({
       email:undefined,
@@ -141,16 +161,7 @@ const handleClick = async (e) => {
         {/* <!-- component --> */}
 <div class="h-[100vh] bg-gradient-to-tl from-green-400 to-indigo-900 w-full py-16 px-4">
 {/* <!--- more free and premium Tailwind CSS components at https://tailwinduikit.com/ ---> */}
-<ToastContainer
-        position="top-center"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        draggable
-        theme="colored"
-      />
+
             <div class="flex flex-col items-center justify-center">
                 {/* <svg tabindex="0" class="focus:outline-none" aria-label="logo" role="banner" width="188" height="74" viewBox="0 0 188 74" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
@@ -165,7 +176,7 @@ const handleClick = async (e) => {
 
                 <div class="bg-white shadow rounded lg:w-1/3  md:w-1/2 w-full p-10 mt-16">
                     <p tabindex="0" class="focus:outline-none text-2xl font-extrabold leading-6 text-gray-800">Login to your account</p>
-                    <p onClick={()=>setRegister(!register)} tabindex="0" class="focus:outline-none text-sm mt-4 font-medium leading-none text-gray-500">{register?"Already Have an Account?":"Dont have account?"} <a href="javascript:void(0)"   class="hover:text-gray-500 focus:text-gray-500 focus:outline-none focus:underline hover:underline text-sm font-medium leading-none  text-gray-800 cursor-pointer"> Sign up here</a></p>
+                    <p onClick={()=>handleRegister()} tabindex="0" class="focus:outline-none text-sm mt-4 font-medium leading-none text-gray-500">{register?"Already Have an Account?":"Dont have account?"} <a href="javascript:void(0)"   class="hover:text-gray-500 focus:text-gray-500 focus:outline-none focus:underline hover:underline text-sm font-medium leading-none  text-gray-800 cursor-pointer"> Sign up here</a></p>
                     {/* <button onClick={google} aria-label="Continue with google" role="button" class="focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-gray-700 py-3.5 px-4 border rounded-lg border-gray-700 flex items-center w-full mt-10">
                         <svg width="19" height="20" viewBox="0 0 19 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M18.9892 10.1871C18.9892 9.36767 18.9246 8.76973 18.7847 8.14966H9.68848V11.848H15.0277C14.9201 12.767 14.3388 14.1512 13.047 15.0812L13.0289 15.205L15.905 17.4969L16.1042 17.5173C17.9342 15.7789 18.9892 13.221 18.9892 10.1871Z" fill="#4285F4" />

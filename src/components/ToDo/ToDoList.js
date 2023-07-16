@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { getToDoList,addTask,updateTask,deleteTask,toggleCheckTask,createToDoList,getAllLists,deleteToDoList,updateListName} from "../../utils/HandleApi";
 import ToDoCard from './ToDoCard';
 import{useDispatch} from "react-redux"
-import { getCurrentList, newList } from '../../Redux/Slices/ToDoSlice';
+import { emptyCurrentList, getCurrentList, newList } from '../../Redux/Slices/ToDoSlice';
 import { Navigate } from 'react-router-dom';
 import { getAllListsRedux } from '../../Redux/Slices/AllListsSlice';
 import { useCookies } from "react-cookie";
@@ -41,8 +41,6 @@ const handleSubmit=(e)=>{
   // getCurrentList({toDoListId:ReduxListId,user_id,token});
   updateName();
 }
-
-
 
   return (
     <div>
@@ -83,7 +81,7 @@ const handleSubmit=(e)=>{
             </div>
           </div>
           <div className="list"></div>
-          {ReduxList.list?.map(item => {
+          {ReduxList && ReduxList.list?.map(item => {
             return (
               <ToDoCard
                 key={item._id}
@@ -95,7 +93,7 @@ const handleSubmit=(e)=>{
                   await deleteTask(item._id, ReduxListId,user_id,token);
                   setTimeout(async () => {
                     await dispatch(getCurrentList({toDoListId:ReduxListId,user_id,token}));
-                  }, 300);
+                  }, 300);               
                 }}
 
                 toggleCheck={async()=>{const ReduxListId = ReduxList._id;

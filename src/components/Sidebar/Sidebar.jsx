@@ -1,14 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { addToDo, getToDoList, updateToDo, deleteToDo, createToDoList, getAllLists, deleteToDoList } from "../../utils/HandleApi";
-import { getCurrentList } from "../../Redux/Slices/ToDoSlice";
+import { emptyCurrentList, getCurrentList } from "../../Redux/Slices/ToDoSlice";
 import { getAllListsRedux } from "../../Redux/Slices/AllListsSlice";
 import { AiFillDelete } from 'react-icons/ai'
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
-import { logoutUser } from "../../Redux/Slices/UserSlice";
+import UserSlice, { fetchUser, logoutUser } from "../../Redux/Slices/UserSlice";
+import { toast } from "react-toastify";
 
-export default function Sidebar({ logout, user, lists, ReduxList }) {
+
+
+
+export default function Sidebar({ logout, lists, ReduxList }) {
+   const user = useSelector((state)=>state.User.data)
+   console.log(user);
    const [cookies, setCookie, removeCookie] = useCookies(["access_token"]);
    const token = cookies.access_token
    const [isSidebarOpen, setSidebarOpen] = useState(false);
@@ -22,12 +28,23 @@ export default function Sidebar({ logout, user, lists, ReduxList }) {
    const navigate = useNavigate();
 
    const signout=()=>{
+      toast.success(`Visit Again ${user.name}!`, {
+         position: "top-center",
+         autoClose: 2000,
+         hideProgressBar: false,
+         closeOnClick: true,
+         pauseOnHover: false,
+         draggable: true,
+         progress: undefined,
+         theme: "dark",
+       });
       dispatch(logoutUser());
       removeCookie("access_token")
+      navigate("/")
       // console.log(cookies.access_token);
-      setTimeout( () => {
-         window.location.reload();
-      }, 300);
+      // setTimeout( () => {
+      //    window.location.reload();
+      // }, 300);
    }
 
    const createNewList = async () => {
@@ -41,10 +58,16 @@ export default function Sidebar({ logout, user, lists, ReduxList }) {
    const handleClick = async (list) => {
       const list_id = list._id
       dispatch(getCurrentList({toDoListId:list_id, user_id,token}));
+      if(window.innerWidth<=1100)setSidebarOpen(false)
    }
 
    const handleDelete = async (list) => {
+
       await deleteToDoList(user._id, list._id,token);
+      // window.location.reload()
+      // if(list._id==ReduxList._id){
+         
+      // }
       setTimeout(async () => {
          await dispatch(getAllListsRedux({user_id, token}));
       }, 300);

@@ -38,8 +38,8 @@ const User = createSlice({
     name:'User',
     initialState:{},
     reducers:{
-        logoutUser(state){
-          state.data={};
+        logoutUser(state,action){
+          state={};
         },
         add(state,action){
             state.push(action.payload)
@@ -54,6 +54,9 @@ const User = createSlice({
         loginUser(state,action){
             console.log(action.payload)
             state.data=action.payload
+        },
+        fetchUser(state,action){
+          return state.data;
         }
     },
     extraReducers:(builder)=>{{
@@ -72,5 +75,5 @@ const User = createSlice({
 })
 
 
-export const{add,remove,newList,logoutUser,loginUser} =User.actions;
+export const{add,remove,newList,logoutUser,loginUser,fetchUser} =User.actions;
 export default User.reducer;
