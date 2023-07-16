@@ -15,16 +15,17 @@ function App() {
 
 const dispatch = useDispatch();
 
-useEffect(() => {
-  const data=localStorage.getItem("user");
-  if(data && data._id){
-    console.log(JSON.parse(data));
-    dispatch(loginUser((JSON.parse(data))));}
   
-}, []);
+//   const checkButton=()=>{
+//     const data=localStorage.getItem("user");
+//     console.log(data);
+//   if(data && data._id){
+//     console.log(JSON.parse(data));}
+// }
+
 // const {user,setUser}=useState()
 const {data:user}= useSelector((state)=>state.User);
-if(user){ 
+if(user && user._id){ 
   // console.log(user);
   localStorage.setItem("user",JSON.stringify(user));}
 
@@ -38,9 +39,11 @@ const logout=()=>{
   window.open(`${process.env.REACT_APP_SERVER_URL}/auth/logout`,"_self")
 }
 
+console.log(user);
 
   return (
     <Router>
+    {/* <button onClick={()=>checkButton()}>check</button> */}
     <ToastContainer
         position="top-center"
         autoClose={2000}
@@ -51,10 +54,10 @@ const logout=()=>{
         draggable
         theme="dark"
       />
-    {user && lists?<Sidebar logout={logout} user={user} lists={lists} ReduxList={ReduxList} />:<></>}
+    {user && user._id && lists?<Sidebar logout={logout} user={user} lists={lists} ReduxList={ReduxList} />:<></>}
     <Routes>
-      <Route path="/" element={user ? <Home lists={lists} ReduxList={ReduxList} user={user}/>:<Navigate to="/login" />} />
-      <Route path="/login" element={user ? <Navigate to="/" />:<LoginPage />} />
+      <Route path="/" element={user&& user._id ? <Home lists={lists} ReduxList={ReduxList} user={user}/>:<Navigate to="/login" />} />
+      <Route path="/login" element={user&& user._id ? <Navigate to="/" />:<LoginPage />} />
     </Routes>
   </Router>
   );

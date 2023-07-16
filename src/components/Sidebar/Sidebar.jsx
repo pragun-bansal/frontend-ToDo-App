@@ -13,7 +13,7 @@ import { toast } from "react-toastify";
 
 
 export default function Sidebar({ logout, lists, ReduxList }) {
-   const user = useSelector((state)=>state.User.data)
+   const user = useSelector((state) => state.User.data)
    console.log(user);
    const [cookies, setCookie, removeCookie] = useCookies(["access_token"]);
    const token = cookies.access_token
@@ -27,7 +27,7 @@ export default function Sidebar({ logout, lists, ReduxList }) {
    const user_id = user._id
    const navigate = useNavigate();
 
-   const signout=()=>{
+   const signout = () => {
       toast.success(`Visit Again ${user.name}!`, {
          position: "top-center",
          autoClose: 2000,
@@ -37,39 +37,40 @@ export default function Sidebar({ logout, lists, ReduxList }) {
          draggable: true,
          progress: undefined,
          theme: "dark",
-       });
+      });
       dispatch(logoutUser());
       removeCookie("access_token")
       navigate("/")
+      localStorage.removeItem("user");
       // console.log(cookies.access_token);
       // setTimeout( () => {
-         window.location.reload();
+      window.location.reload();
       // }, 300);
    }
 
    const createNewList = async () => {
-      await createToDoList("New ToDo List", user._id,token);
+      await createToDoList("New ToDo List", user._id, token);
       setTimeout(async () => {
-         await dispatch(getAllListsRedux({user_id, token}));
+         await dispatch(getAllListsRedux({ user_id, token }));
       }, 300);
    };
 
 
    const handleClick = async (list) => {
       const list_id = list._id
-      dispatch(getCurrentList({toDoListId:list_id, user_id,token}));
-      if(window.innerWidth<=1100)setSidebarOpen(false)
+      dispatch(getCurrentList({ toDoListId: list_id, user_id, token }));
+      if (window.innerWidth <= 1100) setSidebarOpen(false)
    }
 
    const handleDelete = async (list) => {
 
-      await deleteToDoList(user._id, list._id,token);
+      await deleteToDoList(user._id, list._id, token);
       // window.location.reload()
       // if(list._id==ReduxList._id){
-         
+
       // }
       setTimeout(async () => {
-         await dispatch(getAllListsRedux({user_id, token}));
+         await dispatch(getAllListsRedux({ user_id, token }));
       }, 300);
    }
 

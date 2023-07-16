@@ -46,7 +46,7 @@ const handleRegister=()=>{
     setLoginCred({
       username: regCred.username,
       password: regCred.password,
-      email:regCred.email
+      email: regCred.email
     })
   }
   else{

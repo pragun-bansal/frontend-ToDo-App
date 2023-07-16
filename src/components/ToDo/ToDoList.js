@@ -36,6 +36,7 @@ const handleSubmit=(e)=>{
   // e.preventDefault();
   const ReduxListId = ReduxList._id;
   updateListName({ReduxListId,text:newListName,user_id,token});
+  console.log(user_id,token)
   dispatch(getAllListsRedux({user_id,token}));
   dispatch(getCurrentList({toDoListId:ReduxListId,user_id,token}));
   // getCurrentList({toDoListId:ReduxListId,user_id,token});

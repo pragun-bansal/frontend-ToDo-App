@@ -17,8 +17,9 @@ const Home = ({lists,ReduxList,user}) => {
   const user_id=user._id;
   const dispatch = useDispatch();
   useEffect(()=>{
-    // console.log("useeffect",token)
-    // setTimeout(async()=>await dispatch(getAllListsRedux(user_id,token)),1000)
+    console.log("useeffect",token)
+    // setTimeout(async()=>await dispatch(getAllListsRedux(user_id,token)),1000
+
     dispatch(getAllListsRedux({user_id,token}))
    
   },[])

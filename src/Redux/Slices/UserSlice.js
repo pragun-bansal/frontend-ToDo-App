@@ -13,6 +13,20 @@ export const STATUSES = Object.freeze({
 
 //get currentList data
 
+
+
+export const loadState = () => {
+  try {
+    const serialState = localStorage.getItem('user');
+    if (serialState === null) {
+      return {};
+    }
+    return JSON.parse(serialState);
+  } catch (err) {
+    return {};
+  }
+};
+
 export const getUserRedux = createAsyncThunk( "getUserRedux",async({rejectWithValue})=>{
     try {
         const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/auth/login/success`, {
@@ -36,17 +50,18 @@ export const getUserRedux = createAsyncThunk( "getUserRedux",async({rejectWithVa
 
 const User = createSlice({
     name:'User',
-    initialState:{},
+    initialState:{
+      data:loadState()},
     reducers:{
         logoutUser(state,action){
-          state={};
+          state.data={};
         },
         add(state,action){
-            state.push(action.payload)
+            state.data.push(action.payload)
 
         },
         remove(state,action){
-            return state.filter((item,index)=>index!=action.payload)
+            return state.data.filter((item,index)=>index!=action.payload)
         },
         newList(state,action){
             state.data=action.payload
