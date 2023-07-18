@@ -44,7 +44,7 @@ export default function Sidebar({ logout, lists, ReduxList }) {
       localStorage.removeItem("user");
       // console.log(cookies.access_token);
       // setTimeout( () => {
-      window.location.reload();
+      // window.location.reload();
       // }, 300);
    }
 
